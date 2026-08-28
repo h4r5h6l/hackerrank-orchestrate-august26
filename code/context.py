@@ -1,6 +1,10 @@
 """Context construction for deterministic message routing."""
 
 from datetime import datetime
+import argparse
+import csv
+from pathlib import Path
+from pprint import pprint
 import re
 from typing import Any
 
@@ -152,6 +156,50 @@ def build_context(message: dict[str, Any], data: dict[str, list[dict[str, Any]]]
 		"daily_load": daily_load or {},
 		"extracted": _extract_signals(message, content_text),
 	}
+
+
+def _load_rows(dataset_dir: Path, filename: str) -> list[dict[str, Any]]:
+	with (dataset_dir / filename).open(encoding="utf-8", newline="") as handle:
+		return list(csv.DictReader(handle))
+
+
+def load_context_data(dataset_dir: Path) -> tuple[list[dict[str, Any]], dict[str, list[dict[str, Any]]]]:
+	"""Load incoming messages and the tables required to build their contexts."""
+	data_names = (
+		"users",
+		"groups",
+		"business_accounts",
+		"group_members",
+		"user_business_history",
+		"message_history",
+		"message_events",
+		"daily_notification_summary",
+		"images",
+		"voice_notes",
+	)
+	data = {name: _load_rows(dataset_dir, f"{name}.csv") for name in data_names}
+	return _load_rows(dataset_dir, "messages.csv"), data
+
+
+def main() -> None:
+	parser = argparse.ArgumentParser(description="Print contexts for incoming messages.")
+	parser.add_argument("--dataset-dir", type=Path, default=Path(__file__).resolve().parent.parent / "dataset")
+	parser.add_argument("--limit", type=int, default=10, help="Number of contexts to print.")
+	parser.add_argument("--all", action="store_true", help="Print every message context.")
+	args = parser.parse_args()
+
+	messages, data = load_context_data(args.dataset_dir)
+	selected_messages = messages if args.all else messages[:max(args.limit, 0)]
+	for message in selected_messages:
+		context = build_context(message, data)
+		# print(f"\n--- {context['message']['id']} ---")
+		# pprint(context, sort_dicts=False)
+
+	# print(f"\nPrinted {len(selected_messages)} of {len(messages)} message contexts.")
+
+
+if __name__ == "__main__":
+	main()
 
 
 __all__ = ["build_context"]

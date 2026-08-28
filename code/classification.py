@@ -4,40 +4,74 @@ import re
 from typing import Any
 
 
+def _has_urgency_signal(signals: dict[str, Any]) -> bool:
+	return bool(signals.get("has_urgency_signal", signals.get("deadline")))
+
+
+def is_spam(context: dict[str, Any]) -> bool:
+	signals = context.get("extracted", {})
+	relationship = context.get("business", {}).get("relationship", {})
+	text = str(context.get("message", {}).get("content_text", "")).lower()
+	return bool(
+		(signals.get("promotional") and (
+			str(relationship.get("allows_promotions", "1")) == "0"
+		))
+		or re.search(r"send this to \d+ people|forward this|you have won|claim your prize", text)
+	)
+
+
+def is_business_update(context: dict[str, Any]) -> bool:
+	text = str(context.get("message", {}).get("content_text", "")).lower()
+	return bool(re.search(
+		r"\b(?:delivery|delivered|shipment|order update|booking|appointment|account update|expire|renewal|pickup|service update|ready for review|scheduled)\b",
+		text,
+	))
+
+
+def is_event(context: dict[str, Any]) -> bool:
+	text = str(context.get("message", {}).get("content_text", "")).lower()
+	return bool(re.search(
+		r"\b(?:event|meeting|school|bus|class|circular|form|registration|schedule|concert|webinar|deadline|tomorrow|today)\b",
+		text,
+	))
+
+
 def classify_message_type(context: dict[str, Any]) -> str:
 	"""Return one allowed message_type value for a built message context."""
-	extracted = context.get("extracted", {})
+	signals = context.get("extracted", {})
 	text = str(context.get("message", {}).get("content_text", "")).lower()
+	is_otp_disclaimer = bool(re.search(r"never ask for|do not ask for|don't ask for|will never ask", text))
 
-	# Safety takes precedence over the apparent business intent.
-	if extracted.get("suspicious_link") or (
-		extracted.get("otp") and (extracted.get("asks_for_reply") or extracted.get("payment"))
+	if signals.get("suspicious_link") or (
+		signals.get("otp") and (signals.get("asks_for_reply") or signals.get("payment"))
+		and not is_otp_disclaimer
 	):
 		return "scam"
 
-	if extracted.get("payment") or re.search(
+	if is_spam(context):
+		return "spam"
+
+	if signals.get("payment") or re.search(
 		r"\b(?:invoice|receipt|amount due|payment reminder|refund|transfer|paid|pay)\b",
 		text,
 	):
 		return "payment"
 
-	if re.search(
-		r"\b(?:delivery|delivered|shipment|order update|booking|appointment|account update|expire|renewal|pickup|schedule|service update)\b",
-		text,
-	):
+	if signals.get("promotional"):
+		return "promotion"
+
+	if is_business_update(context):
 		return "business_update"
 
-	if extracted.get("has_direct_mention") and extracted.get("deadline"):
+	if signals.get("has_direct_mention") and _has_urgency_signal(signals):
 		return "urgent"
-	if extracted.get("deadline"):
+	if is_event(context) or _has_urgency_signal(signals):
 		return "event"
-	if extracted.get("promotional"):
-		return "promotion"
-	if extracted.get("is_greeting"):
+	if signals.get("is_greeting"):
 		return "greeting"
-	if extracted.get("is_forwarded"):
+	if signals.get("is_forwarded"):
 		return "forward"
-	if extracted.get("asks_for_reply"):
+	if signals.get("asks_for_reply"):
 		return "personal"
 	return "unknown"
 

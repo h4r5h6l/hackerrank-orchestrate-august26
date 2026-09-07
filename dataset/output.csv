@@ -1,111 +1,111 @@
 message_id,action,message_type,reason,confidence,evidence_message_ids
-msg_023,,,,,
-msg_091,,,,,
-msg_090,,,,,
-msg_048,,,,,
-msg_040,,,,,
-msg_075,,,,,
-msg_005,,,,,
-msg_104,,,,,
-msg_069,,,,,
-msg_107,,,,,
-msg_070,,,,,
-msg_003,,,,,
-msg_099,,,,,
-msg_008,,,,,
-msg_092,,,,,
-msg_060,,,,,
-msg_004,,,,,
-msg_030,,,,,
-msg_045,,,,,
-msg_052,,,,,
-msg_009,,,,,
-msg_071,,,,,
-msg_016,,,,,
-msg_065,,,,,
-msg_038,,,,,
-msg_086,,,,,
-msg_014,,,,,
-msg_094,,,,,
-msg_029,,,,,
-msg_105,,,,,
-msg_002,,,,,
-msg_010,,,,,
-msg_078,,,,,
-msg_013,,,,,
-msg_018,,,,,
-msg_044,,,,,
-msg_032,,,,,
-msg_106,,,,,
-msg_006,,,,,
-msg_109,,,,,
-msg_108,,,,,
-msg_019,,,,,
-msg_088,,,,,
-msg_056,,,,,
-msg_027,,,,,
-msg_050,,,,,
-msg_083,,,,,
-msg_063,,,,,
-msg_033,,,,,
-msg_061,,,,,
-msg_020,,,,,
-msg_017,,,,,
-msg_058,,,,,
-msg_026,,,,,
-msg_047,,,,,
-msg_046,,,,,
-msg_042,,,,,
-msg_079,,,,,
-msg_098,,,,,
-msg_037,,,,,
-msg_007,,,,,
-msg_085,,,,,
-msg_001,,,,,
-msg_021,,,,,
-msg_028,,,,,
-msg_012,,,,,
-msg_064,,,,,
-msg_103,,,,,
-msg_031,,,,,
-msg_057,,,,,
-msg_087,,,,,
-msg_067,,,,,
-msg_039,,,,,
-msg_082,,,,,
-msg_066,,,,,
-msg_049,,,,,
-msg_015,,,,,
-msg_051,,,,,
-msg_097,,,,,
-msg_089,,,,,
-msg_053,,,,,
-msg_059,,,,,
-msg_024,,,,,
-msg_072,,,,,
-msg_036,,,,,
-msg_076,,,,,
-msg_055,,,,,
-msg_102,,,,,
-msg_080,,,,,
-msg_093,,,,,
-msg_034,,,,,
-msg_035,,,,,
-msg_101,,,,,
-msg_041,,,,,
-msg_011,,,,,
-msg_110,,,,,
-msg_095,,,,,
-msg_074,,,,,
-msg_073,,,,,
-msg_054,,,,,
-msg_068,,,,,
-msg_100,,,,,
-msg_062,,,,,
-msg_096,,,,,
-msg_043,,,,,
-msg_077,,,,,
-msg_081,,,,,
-msg_025,,,,,
-msg_084,,,,,
-msg_022,,,,,
+msg_023,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0243;message_0102;message_0101
+msg_091,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0238;message_0320;message_0047
+msg_090,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0339;message_0338
+msg_048,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0151;message_0030;message_0043
+msg_040,mute,spam,"Chain-forward or prize-claim language typical of spam, so it was muted.",0.90,message_0136;message_0104;message_0135
+msg_075,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0206;message_0205;message_0294
+msg_005,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0065;message_0049;message_0382
+msg_104,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0224;message_0050;message_0383
+msg_069,mute,greeting,"Forwarded greeting with no personal value, so it was muted.",0.80,message_0080;message_0177;message_0193
+msg_107,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0056;message_0085;message_0195
+msg_070,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0369;message_0056;message_0085
+msg_003,notify,business_update,Delivery or order update from a verified business that matches recent activity.,0.85,message_0031;message_0400;message_0061
+msg_099,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0227;message_0249;message_0055
+msg_008,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0296;message_0071;message_0072
+msg_092,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0346;message_0344;message_0345
+msg_060,digest,promotion,"Promotional content from a followed sender, safe to batch for later.",0.75,message_0284;message_0176;message_0375
+msg_004,notify,event,Time-sensitive event update from a verified sender that the user needs now.,0.85,message_0005;message_0245;message_0246
+msg_030,mute,promotion,Promotional post inside a group the user has muted.,0.85,message_0115;message_0335;message_0050
+msg_045,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0061;message_0027;message_0062
+msg_052,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0208;message_0207;message_0159
+msg_009,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0074;message_0032;message_0073
+msg_071,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0197
+msg_016,mute,scam,"Message carries a suspicious link with claim-or-verify language, so it was muted as a scam.",0.99,message_0024;message_0147;message_0087
+msg_065,digest,promotion,"Promotional content from a followed sender, safe to batch for later.",0.75,message_0260;message_0261;message_0032
+msg_038,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0131;message_0082;message_0132
+msg_086,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_014,mute,promotion,Promotional message from a business the user opted out of.,0.90,message_0017;message_0018;message_0258
+msg_094,mute,promotion,Promotional content the user repeatedly reported and dismissed.,0.80,message_0356;message_0048;message_0223
+msg_029,digest,promotion,"Promotional content from a followed sender, safe to batch for later.",0.75,message_0095;message_0113;message_0332
+msg_105,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0233;message_0373;message_0121
+msg_002,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0003;message_0059;message_0169
+msg_010,digest,business_update,"Non-critical business update, safe to batch for later.",0.75,message_0011;message_0242;message_0075
+msg_078,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0220;message_0163;message_0204
+msg_013,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0081
+msg_018,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0026;message_0011;message_0075
+msg_044,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0143;message_0222;message_0228
+msg_032,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0119;message_0285;message_0175
+msg_106,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0234;message_0376;message_0206
+msg_006,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0029;message_0044;message_0067
+msg_109,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0151;message_0030;message_0067
+msg_108,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0094;message_0093;message_0275
+msg_019,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0277;message_0275;message_0276
+msg_088,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_056,notify,urgent,Direct mention of the user with a real deadline that needs attention now.,0.90,message_0217;message_0226;message_0359
+msg_027,digest,promotion,"Promotional content from a followed sender, safe to batch for later.",0.75,message_0007;message_0033;message_0272
+msg_050,digest,event,"Event update without immediate time pressure, safe to batch for later.",0.75,message_0278;message_0279;message_0155
+msg_083,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_063,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0364;message_0254;message_0255
+msg_033,digest,greeting,Routine greeting that can wait for later.,0.70,message_0121;message_0372;message_0278
+msg_061,mute,greeting,"Forwarded greeting with no personal value, so it was muted.",0.80,message_0080;message_0177;message_0193
+msg_020,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0049;message_0096;message_0114
+msg_017,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0319;message_0089;message_0090
+msg_058,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0039;message_0040;message_0241
+msg_026,digest,business_update,"Non-critical business update, safe to batch for later.",0.75,message_0032;message_0107;message_0260
+msg_047,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0001;message_0271;message_0030
+msg_046,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0148;message_0024;message_0251
+msg_042,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0058;message_0140;message_0217
+msg_079,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0369;message_0221;message_0023
+msg_098,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0226;message_0004;message_0239
+msg_037,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0001;message_0410
+msg_007,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0275;message_0276;message_0277
+msg_085,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_001,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0057;message_0139;message_0240
+msg_021,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0270;message_0001;message_0099
+msg_028,mute,promotion,Promotional message from a business the user opted out of.,0.90,message_0034;message_0257;message_0402
+msg_012,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0178;message_0194;message_0079
+msg_064,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0087;message_0162;message_0183
+msg_103,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0065;message_0382;message_0049
+msg_031,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0036;message_0222;message_0055
+msg_057,notify,personal,Direct mention of the user in a personal conversation.,0.90,message_0059;message_0169;message_0003
+msg_087,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_067,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0068;message_0098;message_0029
+msg_039,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0364;message_0365;message_0051
+msg_082,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_066,mute,promotion,Promotional message from a business the user opted out of.,0.90,message_0257;message_0402;message_0052
+msg_049,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0154;message_0291;message_0153
+msg_015,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0023;message_0045;message_0221
+msg_051,mute,promotion,Promotional message from a business the user opted out of.,0.90,message_0257;message_0402;message_0052
+msg_097,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0054;message_0167;message_0225
+msg_089,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0299;message_0396;message_0301
+msg_053,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0161;message_0253;message_0411
+msg_059,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0221;message_0263;message_0053
+msg_024,mute,promotion,Promotional message from a business the user opted out of.,0.90,message_0257;message_0402;message_0052
+msg_072,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0023;message_0045;message_0056
+msg_036,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0283;message_0281;message_0125
+msg_076,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0208;message_0207;message_0159
+msg_055,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0165;message_0166;message_0347
+msg_102,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0230;message_0371;message_0062
+msg_080,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0130;message_0142;message_0150
+msg_093,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0347;message_0348;message_0349
+msg_034,mute,greeting,"Forwarded greeting with no personal value, so it was muted.",0.80,message_0013;message_0054;message_0167
+msg_035,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0281;message_0125;message_0283
+msg_101,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0229;message_0268;message_0370
+msg_041,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0137;message_0138;message_0106
+msg_011,mute,greeting,"Forwarded greeting with no personal value, so it was muted.",0.80,message_0077;message_0123;message_0171
+msg_110,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0238;message_0320;message_0047
+msg_095,mute,payment,"Message tries to override routing rules, so it was suppressed as unsafe.",0.99,message_0087;message_0183;message_0201
+msg_074,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0203;message_0204;message_0358
+msg_073,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0147;message_0252;message_0019
+msg_054,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0389;message_0220;message_0163
+msg_068,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0191
+msg_100,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0362;message_0228;message_0117
+msg_062,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0043;message_0068;message_0098
+msg_096,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,none
+msg_043,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0030;message_0067;message_0097
+msg_077,notify,event,Time-sensitive event update from a group admin that the user needs now.,0.85,message_0051;message_0364;message_0403
+msg_081,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
+msg_025,notify,business_update,Delivery or order update from a verified business that matches recent activity.,0.85,message_0004;message_0239;message_0105
+msg_084,mute,spam,"Empty message from a sender the user opted out of, so it was muted.",0.90,none
+msg_022,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0151;message_0030;message_0099

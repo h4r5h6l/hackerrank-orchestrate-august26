@@ -9,7 +9,7 @@ Usage:
     python code/sdv_generate.py \
         --input code/generated_data/sdv_ready_seed.csv \
         --output code/generated_data/sdv_synthetic.csv \
-        --num-rows 5000 --seed 42
+        --num-rows 10000 --seed 42
 """
 
 from __future__ import annotations
@@ -142,6 +142,101 @@ def reconcile_labels(real, synthetic, rng):
     return synthetic
 
 
+def reconcile_derived(real: pd.DataFrame, synthetic: pd.DataFrame, rng) -> pd.DataFrame:
+    """Re-derive columns from their sources so joint structure holds exactly.
+
+    features.py derives these columns from chat_type / media_type / the
+    mention flag, so every real row satisfies the invariants below; the
+    copula samples them independently and breaks them. Re-derivation makes
+    the synthetic table satisfy them by construction. Group rows whose
+    membership_role was sampled as 'none' (impossible in real data) are
+    resampled from the real role distribution, and business rows with a
+    non-positive account age are resampled from real positive ages.
+    """
+    if "chat_type" not in synthetic.columns:
+        return synthetic
+    group_mask = synthetic["chat_type"] == "group"
+    business_mask = synthetic["chat_type"] == "business"
+
+    # identity / type columns derive directly from chat_type
+    if "is_group" in synthetic.columns:
+        synthetic["is_group"] = group_mask
+    if "is_business" in synthetic.columns:
+        synthetic["is_business"] = business_mask
+    if "sender_is_business" in synthetic.columns:
+        synthetic["sender_is_business"] = business_mask
+    if "sender_type" in synthetic.columns:
+        synthetic["sender_type"] = synthetic["chat_type"]
+
+    # group-only columns default to none / 0 / False outside group chats
+    for col, off in (
+        ("group_type", "none"),
+        ("group_muted_by_user", False),
+        ("group_member_count", 0),
+        ("group_admin_count", 0),
+        ("group_messages_30d", 0),
+        ("membership_messages_read_30d", 0),
+        ("membership_messages_sent_30d", 0),
+        ("membership_replies_sent_30d", 0),
+        ("membership_notifications_dismissed_30d", 0),
+    ):
+        if col in synthetic.columns:
+            synthetic.loc[~group_mask, col] = off
+
+    # business-only columns default to none / 0 / False outside business chats
+    for col, off in (
+        ("business_category", "none"),
+        ("subscription", "none"),
+        ("rel_allows_promotions", "none"),
+        ("rel_opted_out", False),
+        ("domain_matches_official", False),
+        ("business_is_verified", False),
+        ("business_account_age_days", 0),
+        ("business_domain_age_days", 0),
+        ("business_messages_sent_30d", 0),
+        ("business_user_reports_30d", 0),
+        ("purchase_history_count", 0),
+        ("rel_activity_count_180d", 0),
+        ("rel_messages_opened_30d", 0),
+        ("rel_messages_dismissed_30d", 0),
+        ("rel_messages_replied_30d", 0),
+    ):
+        if col in synthetic.columns:
+            synthetic.loc[~business_mask, col] = off
+
+    # membership_role: 'none' is impossible inside a group chat -> resample
+    if "membership_role" in synthetic.columns:
+        synthetic.loc[~group_mask, "membership_role"] = "none"
+        real_roles = real.loc[
+            (real["chat_type"] == "group") & (real["membership_role"] != "none"),
+            "membership_role",
+        ]
+        if len(real_roles):
+            dist = real_roles.value_counts(normalize=True)
+            bad = group_mask & (synthetic["membership_role"] == "none")
+            if int(bad.sum()):
+                synthetic.loc[bad, "membership_role"] = rng.choice(
+                    dist.index.to_list(), size=int(bad.sum()), p=dist.to_numpy()
+                )
+
+    # business rows always carry a positive account age -> resample zeros
+    if "business_account_age_days" in synthetic.columns:
+        real_ages = real.loc[real["business_account_age_days"] > 0, "business_account_age_days"]
+        if len(real_ages):
+            bad = business_mask & (synthetic["business_account_age_days"] <= 0)
+            if int(bad.sum()):
+                synthetic.loc[bad, "business_account_age_days"] = rng.choice(
+                    real_ages.to_numpy(), size=int(bad.sum())
+                )
+
+    # media / mention flags derive from their source columns
+    if "media_type" in synthetic.columns and "has_media" in synthetic.columns:
+        synthetic["has_media"] = synthetic["media_type"] != "none"
+    if "n_mentions" in synthetic.columns and "has_direct_mention" in synthetic.columns:
+        synthetic["n_mentions"] = synthetic["has_direct_mention"].astype(int)
+    return synthetic
+
+
 def distribution_report(real: pd.DataFrame, synthetic: pd.DataFrame) -> str:
     lines = ["", "=== Distribution similarity (real vs synthetic) ==="]
     numeric_cols = [
@@ -184,7 +279,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description="Generate synthetic SDV rows")
     parser.add_argument("--input", default=DEFAULT_INPUT)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
-    parser.add_argument("--num-rows", type=int, default=5000)
+    parser.add_argument("--num-rows", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--model", choices=("gaussian", "ctgan"), default="gaussian")
     parser.add_argument("--save-model", default=None)
@@ -207,6 +302,7 @@ def main(argv=None):
     import numpy as np
     rng = np.random.default_rng(args.seed)
     synthetic = reconcile_labels(real, synthetic, rng)
+    synthetic = reconcile_derived(real, synthetic, rng)
     synthetic[PRIMARY_KEY] = range(len(synthetic))
 
     parent = os.path.dirname(os.path.abspath(args.output))

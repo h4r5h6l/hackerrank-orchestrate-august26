@@ -1,0 +1,185 @@
+{
+  "all_passed": true,
+  "checks": {
+    "label_parity_action": {
+      "passed": true,
+      "max_abs_share_delta": 0.0086,
+      "missing_classes_in_synthetic": [],
+      "per_class_share_delta": {
+        "digest": 0.0016,
+        "mute": 0.0069,
+        "notify": 0.0086
+      }
+    },
+    "label_parity_message_type": {
+      "passed": true,
+      "max_abs_share_delta": 0.0124,
+      "missing_classes_in_synthetic": [],
+      "per_class_share_delta": {
+        "business_update": 0.0003,
+        "event": 0.0124,
+        "forward": 0.0029,
+        "greeting": 0.0027,
+        "payment": 0.0037,
+        "personal": 0.0074,
+        "promotion": 0.0004,
+        "scam": 0.0069,
+        "spam": 0.0,
+        "urgent": 0.0009
+      }
+    },
+    "derived_constraints": {
+      "passed": true,
+      "constraints": [
+        {
+          "name": "is_group == (chat_type == 'group')",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "is_business == (chat_type == 'business')",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "sender_is_business == (chat_type == 'business')",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "sender_type == chat_type",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "has_media == (media_type != 'none')",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "n_mentions == int(has_direct_mention)",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-group membership_role == 'none'",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "group membership_role != 'none'",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-group group_type == 'none'",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-group group_muted_by_user is False",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-group group counts are 0",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-group membership counts are 0",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-business business flags are False",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-business business cats are 'none'",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        },
+        {
+          "name": "non-business business counts are 0",
+          "status": "passed",
+          "real_violations": 0,
+          "synthetic_violations": 0
+        }
+      ]
+    },
+    "correlation_similarity": {
+      "passed": true,
+      "mean_abs_delta": 0.1127,
+      "max_abs_delta": 0.8375,
+      "numeric_columns_compared": 37,
+      "worst_pairs": [
+        {
+          "pair": "business_user_reports_30d vs rel_messages_opened_30d",
+          "abs_delta": 0.8375
+        },
+        {
+          "pair": "business_user_reports_30d vs rel_messages_replied_30d",
+          "abs_delta": 0.8152
+        },
+        {
+          "pair": "business_domain_age_days vs business_user_reports_30d",
+          "abs_delta": 0.6416
+        },
+        {
+          "pair": "business_account_age_days vs business_user_reports_30d",
+          "abs_delta": 0.6248
+        },
+        {
+          "pair": "membership_messages_sent_30d vs membership_notifications_dismissed_30d",
+          "abs_delta": 0.582
+        }
+      ]
+    },
+    "joint_action_given_type": {
+      "passed": true,
+      "max_abs_delta": 0.026,
+      "per_message_type": {
+        "business_update": 0.0139,
+        "event": 0.0206,
+        "forward": 0.0,
+        "greeting": 0.0,
+        "payment": 0.0002,
+        "personal": 0.0046,
+        "promotion": 0.026,
+        "scam": 0.0,
+        "spam": 0.0,
+        "urgent": 0.0
+      }
+    },
+    "leakage": {
+      "passed": true,
+      "id_overlaps": {
+        "seed": 0,
+        "message_history": 0,
+        "messages": 0
+      },
+      "duplicate_primary_keys": 0,
+      "exact_feature_duplicates_vs_real": 0
+    },
+    "completeness": {
+      "passed": true,
+      "missing_cells": 0
+    }
+  }
+}

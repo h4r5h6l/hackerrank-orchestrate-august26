@@ -1,0 +1,7 @@
+# Pinned runtime for the SDV synthetic-data pipeline (Phase 2).
+# Install into the project virtualenv:  pip install -r requirements.txt
+sdv==1.38.2
+xgboost==3.4.1
+scikit-learn==1.9.0
+pandas==2.3.3
+numpy==2.5.1

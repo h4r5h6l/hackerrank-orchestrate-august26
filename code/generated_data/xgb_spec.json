@@ -1,0 +1,205 @@
+{
+  "action_classes": [
+    "digest",
+    "mute",
+    "notify"
+  ],
+  "feature_spec": {
+    "boolean": [
+      "has_media",
+      "asks_for_reply",
+      "deadline",
+      "has_direct_mention",
+      "is_greeting",
+      "opt_out",
+      "otp",
+      "payment",
+      "promotional",
+      "suspicious_link",
+      "is_forwarded",
+      "has_url",
+      "is_group",
+      "group_muted_by_user",
+      "sender_is_business",
+      "sender_is_verified",
+      "has_quiet_hours",
+      "is_in_quiet_hours",
+      "is_business",
+      "business_is_verified",
+      "domain_matches_official",
+      "rel_opted_out"
+    ],
+    "categorical": {
+      "business_category": [
+        "bank",
+        "cinema",
+        "credit_card",
+        "ecommerce",
+        "ecommerce_delivery",
+        "food_delivery",
+        "healthcare",
+        "healthcare_product",
+        "logistics",
+        "none",
+        "payments",
+        "retail",
+        "travel"
+      ],
+      "chat_type": [
+        "business",
+        "group",
+        "personal"
+      ],
+      "group_type": [
+        "book_club",
+        "college_faculty",
+        "college_students",
+        "coworker",
+        "dance_class",
+        "extended_family",
+        "family",
+        "investment_tips",
+        "local_food",
+        "marketplace",
+        "none",
+        "real_estate",
+        "school_group",
+        "society",
+        "sports"
+      ],
+      "media_type": [
+        "image",
+        "none",
+        "voice"
+      ],
+      "membership_role": [
+        "admin",
+        "member",
+        "none"
+      ],
+      "rel_allows_promotions": [
+        "0",
+        "1",
+        "none"
+      ],
+      "sender_type": [
+        "business",
+        "group",
+        "personal"
+      ],
+      "subscription": [
+        "active_retail_membership",
+        "confirmed_travel_booking",
+        "delivery_expected_today",
+        "food_promotions_opted_out",
+        "loan_promotions_opted_out",
+        "none",
+        "old_retail_coupon_list",
+        "old_sale_subscription",
+        "prescription_refill",
+        "recent_grocery_delivery",
+        "recent_movie_feedback",
+        "recent_product_purchase",
+        "travel_package_interest",
+        "travel_promotions_opted_out",
+        "upcoming_clinic_appointment"
+      ]
+    },
+    "numeric": [
+      "text_len",
+      "timestamp_hour",
+      "timestamp_minute",
+      "n_mentions",
+      "recent_messages_count",
+      "membership_messages_read_30d",
+      "membership_messages_sent_30d",
+      "membership_replies_sent_30d",
+      "membership_notifications_dismissed_30d",
+      "group_member_count",
+      "group_admin_count",
+      "group_messages_30d",
+      "sender_messages_opened_30d",
+      "sender_messages_replied_30d",
+      "sender_messages_reported_30d",
+      "sender_notifications_dismissed_30d",
+      "user_messages_opened_30d",
+      "user_messages_replied_30d",
+      "user_messages_reported_30d",
+      "user_notifications_dismissed_30d",
+      "business_account_age_days",
+      "business_domain_age_days",
+      "business_messages_sent_30d",
+      "business_user_reports_30d",
+      "purchase_history_count",
+      "rel_activity_count_180d",
+      "rel_messages_opened_30d",
+      "rel_messages_dismissed_30d",
+      "rel_messages_replied_30d",
+      "hist_message_opened",
+      "hist_message_replied",
+      "hist_message_reported",
+      "hist_muted_after_message",
+      "hist_notification_dismissed",
+      "similar_messages_count"
+    ]
+  },
+  "message_type_classes": [
+    "business_update",
+    "event",
+    "forward",
+    "greeting",
+    "payment",
+    "personal",
+    "promotion",
+    "scam",
+    "spam",
+    "urgent"
+  ],
+  "training": {
+    "cv": {
+      "action": {
+        "accuracy_folds": [
+          0.4211,
+          0.5263,
+          0.5556,
+          0.6111,
+          0.7222
+        ],
+        "accuracy_mean": 0.5673,
+        "macro_f1_mean": 0.5363
+      },
+      "message_type": {
+        "accuracy_folds": [
+          0.3158,
+          0.4211,
+          0.4444,
+          0.5556,
+          0.6111
+        ],
+        "accuracy_mean": 0.4696,
+        "macro_f1_mean": 0.2467
+      }
+    },
+    "feature_count": 115,
+    "in_sample_accuracy": {
+      "action": 0.9216,
+      "message_type": 0.9422
+    },
+    "params": {
+      "colsample_bytree": 0.8,
+      "eval_metric": "mlogloss",
+      "learning_rate": 0.1,
+      "max_depth": 5,
+      "n_estimators": 400,
+      "n_jobs": 4,
+      "objective": "multi:softprob",
+      "random_state": 42,
+      "subsample": 0.8,
+      "tree_method": "hist"
+    },
+    "real_rows": 92,
+    "real_weight": 10.0,
+    "seed": 42,
+    "synthetic_rows": 10000
+  }
+}

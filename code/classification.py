@@ -8,6 +8,15 @@ def _has_urgency_signal(signals: dict[str, Any]) -> bool:
 	return bool(signals.get("has_urgency_signal", signals.get("deadline")))
 
 
+# QR / clearance-payment fraud carries no URL and no OTP, so it slips past the
+# link+OTP scam guard in classify_message_type and would otherwise be typed as
+# `payment`, which decide_action escalates to `notify`.
+_QR_FRAUD_RE = re.compile(
+	r"scan\s+(?:this|the)\s+qr|scan\s+and\s+pay"
+	r"|qr\s+code\s+to\s+(?:pay|clear)|clearance\s+amount"
+)
+
+
 def is_spam(context: dict[str, Any]) -> bool:
 	signals = context.get("extracted", {})
 	relationship = context.get("business", {}).get("relationship", {})
@@ -63,6 +72,9 @@ def classify_message_type(context: dict[str, Any]) -> str:
 		signals.get("otp") and (signals.get("asks_for_reply") or signals.get("payment"))
 		and not is_otp_disclaimer
 	):
+		return "scam"
+
+	if _QR_FRAUD_RE.search(text):
 		return "scam"
 
 	if is_spam(context):

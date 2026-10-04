@@ -25,7 +25,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from classification import classify_message_type
+from classification import _QR_FRAUD_RE, classify_message_type
 from context import build_context
 from seed_pipeline import (
     _is_prompt_injection,
@@ -86,7 +86,11 @@ def build_reason(context: dict[str, Any], message_type: str, action: str) -> str
     if message_type == "scam":
         if sx.get("otp"):
             return "Message asks for an OTP or login code after prompting a reply, which looks like a scam."
-        return "Message carries a suspicious link with claim-or-verify language, so it was muted as a scam."
+        if _QR_FRAUD_RE.search(low):
+            return "Message asks the user to scan a QR code or pay a clearance fee, which is a payment scam."
+        if sx.get("suspicious_link"):
+            return "Message carries a suspicious link with claim-or-verify language, so it was muted as a scam."
+        return "Message matches known scam phrasing with no legitimate context, so it was muted."
     if message_type == "spam":
         if not low:
             return "Empty message from a sender the user opted out of, so it was muted."

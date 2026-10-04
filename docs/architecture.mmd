@@ -1,0 +1,52 @@
+%% Message Notification Router - system architecture
+%% Classic flowchart dialect: renders on mermaid.live / mermaid.ai, GitHub,
+%% and the VS Code Mermaid extension. No v11-only syntax is used.
+flowchart TD
+    subgraph DS["Dataset - participant facing files"]
+        direction TB
+        MSG[("messages.csv<br/>110 rows to route")]
+        CTXCSV["Context tables x10<br/>users, groups, group_members,<br/>business_accounts, user_business_history,<br/>message_history, message_events,<br/>daily_notification_summary, images, voice_notes"]
+        MEDIA["Media files<br/>20 images, 13 voice notes<br/>lookup resolves correctly"]
+    end
+
+    subgraph ONLINE["ONLINE - production router - code/main.py - stdlib only"]
+        direction TB
+        BC["build_context<br/>8 sections"]
+        CLS["classify_message_type<br/>first match wins"]
+        PRI["calculate_priority<br/>vestigial, unused by action"]
+        ACT["decide_action<br/>first match wins"]
+        RSN["build_reason"]
+        EVD["select_evidence<br/>top 3 of similar_messages"]
+        OUT["write output.csv<br/>6 contract columns"]
+        BC --> CLS --> PRI --> ACT --> RSN --> EVD --> OUT
+    end
+
+    subgraph OFFLINE["OFFLINE - training and evaluation - not in the live path"]
+        direction TB
+        SEED["write_seed_output<br/>92 high-confidence rows"]
+        FLAT["features.flatten_row<br/>JSON context to scalar table"]
+        SDV["sdv_generate<br/>GaussianCopula, 10k rows"]
+        QA["sdv_qa<br/>parity and invariant gate"]
+        TRN["train_xgb<br/>400 trees, depth 5"]
+        EV1["evaluate_sample<br/>30 labeled samples"]
+        EV2["evaluate_xgb<br/>rules vs xgb vs hybrid"]
+        SEED --> FLAT --> SDV --> QA --> TRN
+        EV2 --> TRN
+    end
+
+    MSG --> BC
+    CTXCSV --> BC
+    MEDIA -.-> BC
+    ACT --> SEED
+    OUT --> OUTCSV[("dataset/output.csv<br/>110 rows")]
+
+    classDef src fill:#ede7f6,stroke:#5e35b1,stroke-width:1px
+    classDef online fill:#e8f5e9,stroke:#43a047,stroke-width:2px
+    classDef offline fill:#eceff1,stroke:#607d8b,stroke-width:1px
+    classDef broken fill:#ffebee,stroke:#e53935,stroke-width:2px
+    classDef sink fill:#e0f7fa,stroke:#00acc1,stroke-width:2px
+    class MSG,CTXCSV src
+    class BC,CLS,PRI,ACT,RSN,EVD,OUT online
+    class SEED,FLAT,SDV,QA,TRN,EV1,EV2 offline
+    class MEDIA broken
+    class OUTCSV sink

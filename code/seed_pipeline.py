@@ -67,12 +67,17 @@ _PROMO_SPAM_RE = re.compile(
 )
 
 
+_PROMPT_INJECTION_RE = re.compile(
+    r"ignore\s+(?:all\s+)?previous\s+routing\s+rules"
+    r"|mark\s+(?:this\s+\w+\s+)?(?:as\s+)?notify"
+    r"|always\s+(?:route|mark)\s+.*?notify"
+    r"|system\s+note\s+for\s+the\s+notification\s+router"
+)
+
+
 def _is_prompt_injection(text: str) -> bool:
     """Detect explicit attempts to override routing (always a safety mute)."""
-    t = text.lower()
-    return bool(
-        re.search(r"ignore (all )?previous routing rules|mark this message as notify|mark as notify|always (route|mark) .*?notify", t)
-    )
+    return bool(_PROMPT_INJECTION_RE.search(text.lower()))
 
 
 def decide_action(context: dict[str, Any], message_type: str) -> tuple[str, float]:

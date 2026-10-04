@@ -1,0 +1,33 @@
+%% Confirmed defects, dead signals, and circular training in the router.
+%% Each node below was verified against the code or the dataset.
+flowchart TD
+    subgraph BROKEN["Phase A fixes applied 2026-10-03"]
+        B1["context.py media lookup<br/>FIXED: uses image_id / voice_note_id"]
+        B2["23 of 23 media messages<br/>now resolve to a real file_path"]
+    end
+
+    subgraph MISSING["Loaded into context, never read by decide_action"]
+        M1["quiet_hours"]
+        M2["daily_load"]
+        M3["domain_used_by_sender"]
+        M4["reaction_time_minutes"]
+        M5["account_age, user_reports"]
+        M6["No OCR and no ASR anywhere<br/>in the codebase"]
+    end
+
+    subgraph CIRCULAR["Circular training loop"]
+        C1["labeled_seed.csv<br/>92 rows, all generated from<br/>messages.csv by the rule engine"]
+        C2["sdv_generate amplifies<br/>those rule labels to 10,000 rows"]
+        C3["XGBoost therefore distills<br/>the rule engine, not human labels"]
+        C4["system_comparison.csv shows<br/>rules already beat XGBoost"]
+    end
+
+    B1 --> B2
+    C1 --> C2 --> C3 --> C4
+
+    classDef bad fill:#ffebee,stroke:#e53935,stroke-width:2px
+    classDef warn fill:#fff8e1,stroke:#f9a825,stroke-width:1px
+    classDef loop fill:#f3e5f5,stroke:#8e24aa,stroke-width:1px
+    class B1,B2,M6 bad
+    class M1,M2,M3,M4,M5 warn
+    class C1,C2,C3,C4 loop

@@ -1,0 +1,33 @@
+%% classify_message_type - decision cascade in code/classification.py
+%% Transcribed 1:1 from the if/elif chain. First match wins, so order matters.
+flowchart TD
+    CTX["build_context"] --> C1{"suspicious_link<br/>or otp with reply/payment?"}
+    C1 -->|yes| SCAM["scam"]
+    C1 -->|no| C2{"is_spam?"}
+    C2 -->|yes| SPAM["spam"]
+    C2 -->|no| C3{"direct mention<br/>AND real urgency?"}
+    C3 -->|yes| URG1["urgent"]
+    C3 -->|no| C4{"payment intent?"}
+    C4 -->|yes| PAY["payment"]
+    C4 -->|no| C5{"promotional?"}
+    C5 -->|yes| PROM["promotion"]
+    C5 -->|no| C6{"is_greeting?"}
+    C6 -->|yes| GREET["greeting"]
+    C6 -->|no| C7{"urgency, not event,<br/>and asks to reply?"}
+    C7 -->|yes| URG2["urgent"]
+    C7 -->|no| C8{"event or urgency?"}
+    C8 -->|yes| EVT["event"]
+    C8 -->|no| C9{"business update?"}
+    C9 -->|yes| BU["business_update"]
+    C9 -->|no| C10{"forwarded?"}
+    C10 -->|yes| FWD["forward"]
+    C10 -->|no| UNK["personal or unknown"]
+
+    classDef q fill:#fff8e1,stroke:#f9a825,stroke-width:1px
+    classDef risk fill:#ffebee,stroke:#e53935,stroke-width:2px
+    classDef norm fill:#e8f5e9,stroke:#43a047,stroke-width:1px
+    classDef low fill:#eceff1,stroke:#607d8b,stroke-width:1px
+    class C1,C2,C3,C4,C5,C6,C7,C8,C9,C10 q
+    class SCAM,SPAM risk
+    class URG1,URG2,EVT,PAY,GREET,PROM,BU norm
+    class FWD,UNK low

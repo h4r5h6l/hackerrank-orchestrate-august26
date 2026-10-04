@@ -106,8 +106,12 @@ def build_context(message: dict[str, Any], data: dict[str, list[dict[str, Any]]]
 
 	media_id = message.get("media_id", "")
 	media_type = message.get("media_type", "")
-	media_rows = data.get("images" if media_type == "image" else "voice_notes", [])
-	media = next((row for row in media_rows if row.get("media_id") == media_id), None)
+	is_image = media_type == "image"
+	media_rows = data.get("images" if is_image else "voice_notes", [])
+	# images.csv keys on `image_id` and voice_notes.csv on `voice_note_id`; neither
+	# has a `media_id` column, so the lookup field must match the table.
+	id_field = "image_id" if is_image else "voice_note_id"
+	media = next((row for row in media_rows if row.get(id_field) == media_id), None)
 	content_text = _text(message)
 
 	sender = users.get(message.get("sender_user_id"), {})

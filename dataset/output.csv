@@ -2,7 +2,7 @@ message_id,action,message_type,reason,confidence,evidence_message_ids
 msg_023,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0243;message_0102;message_0101
 msg_091,mute,scam,"Message asks for an OTP or login code after prompting a reply, which looks like a scam.",0.99,message_0238;message_0320;message_0047
 msg_090,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0339;message_0338
-msg_048,digest,payment,"Forwarded payment content without provenance, batched for later review.",0.60,message_0151;message_0030;message_0043
+msg_048,mute,scam,"Message asks the user to scan a QR code or pay a clearance fee, which is a payment scam.",0.99,message_0151;message_0030;message_0043
 msg_040,mute,spam,"Chain-forward or prize-claim language typical of spam, so it was muted.",0.90,message_0136;message_0104;message_0135
 msg_075,digest,unknown,"Could not determine a strong intent, so it was deferred to the digest.",0.65,message_0206;message_0205;message_0294
 msg_005,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0065;message_0049;message_0382
@@ -38,7 +38,7 @@ msg_044,mute,forward,"Widely forwarded content with no personal relevance, so it
 msg_032,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0119;message_0285;message_0175
 msg_106,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0234;message_0376;message_0206
 msg_006,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0029;message_0044;message_0067
-msg_109,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0151;message_0030;message_0067
+msg_109,mute,scam,"Message tries to override routing rules, so it was suppressed as unsafe.",0.99,message_0151;message_0030;message_0067
 msg_108,notify,urgent,Time-sensitive request that should interrupt the user.,0.90,message_0094;message_0093;message_0275
 msg_019,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0277;message_0275;message_0276
 msg_088,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
@@ -46,11 +46,11 @@ msg_056,notify,urgent,Direct mention of the user with a real deadline that needs
 msg_027,digest,promotion,"Promotional content from a followed sender, safe to batch for later.",0.75,message_0007;message_0033;message_0272
 msg_050,digest,event,"Event update without immediate time pressure, safe to batch for later.",0.75,message_0278;message_0279;message_0155
 msg_083,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,none
-msg_063,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0364;message_0254;message_0255
+msg_063,mute,scam,"Message asks the user to scan a QR code or pay a clearance fee, which is a payment scam.",0.99,message_0364;message_0254;message_0255
 msg_033,digest,greeting,Routine greeting that can wait for later.,0.70,message_0121;message_0372;message_0278
 msg_061,mute,greeting,"Forwarded greeting with no personal value, so it was muted.",0.80,message_0080;message_0177;message_0193
 msg_020,notify,event,Same-day event update with a deadline that the user needs now.,0.85,message_0049;message_0096;message_0114
-msg_017,notify,payment,Payment message from a known relationship that should be acted on now.,0.88,message_0319;message_0089;message_0090
+msg_017,mute,scam,"Message asks the user to scan a QR code or pay a clearance fee, which is a payment scam.",0.99,message_0319;message_0089;message_0090
 msg_058,mute,forward,"Widely forwarded content with no personal relevance, so it was muted.",0.85,message_0039;message_0040;message_0241
 msg_026,digest,business_update,"Non-critical business update, safe to batch for later.",0.75,message_0032;message_0107;message_0260
 msg_047,digest,personal,Ordinary personal chat with no direct mention or urgency.,0.75,message_0001;message_0271;message_0030
